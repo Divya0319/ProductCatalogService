@@ -1,4 +1,4 @@
-package com.fastturtle.productcatalogservice.controllers.models;
+package com.fastturtle.productcatalogservice.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
