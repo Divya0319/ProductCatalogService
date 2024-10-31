@@ -5,6 +5,10 @@ import com.fastturtle.productcatalogservice.dtos.ProductDTO;
 import com.fastturtle.productcatalogservice.models.Product;
 import com.fastturtle.productcatalogservice.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -27,9 +31,12 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public ProductDTO getProduct(@PathVariable("id") Long productId) {
+    public ResponseEntity<ProductDTO> getProduct(@PathVariable("id") Long productId) {
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        headers.add("called by", "smart frontend");
         Product product = productService.getProductById(productId);
-        return from(product);
+        ProductDTO productDTO = from(product);
+        return new ResponseEntity<>(productDTO, headers, HttpStatus.OK);
     }
 
     @PostMapping
