@@ -2,6 +2,7 @@ package com.fastturtle.productcatalogservice.controllers;
 
 import com.fastturtle.productcatalogservice.dtos.CategoryDTO;
 import com.fastturtle.productcatalogservice.dtos.ProductDTO;
+import com.fastturtle.productcatalogservice.exceptions.ProductNotFoundException;
 import com.fastturtle.productcatalogservice.models.Category;
 import com.fastturtle.productcatalogservice.models.Product;
 import com.fastturtle.productcatalogservice.service.IProductService;
@@ -41,7 +42,7 @@ public class ProductController {
     public ResponseEntity<ProductDTO> getProduct(@PathVariable("id") Long productId) {
         try {
             if(productId < 1 || productId > 20) {
-                throw new IllegalArgumentException("Product not present");
+                throw new ProductNotFoundException();
             }
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
             headers.add("called by", "smart frontend");
@@ -52,7 +53,7 @@ public class ProductController {
 
         ProductDTO productDTO = from(product);
         return new ResponseEntity<>(productDTO, headers, HttpStatus.OK);
-        } catch (IllegalArgumentException ex) {
+        } catch (ProductNotFoundException ex) {
 //            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             throw ex;
         }
@@ -68,11 +69,6 @@ public class ProductController {
         Product product = from(productDTO);
         Product result = productService.replaceProduct(id, product);
         return from(result);
-    }
-
-    @ExceptionHandler({IllegalArgumentException.class})
-    private ResponseEntity<String> handleException(Exception ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     private ProductDTO from(Product product) {
