@@ -1,5 +1,6 @@
 package com.fastturtle.productcatalogservice.service;
 
+import com.fastturtle.productcatalogservice.clients.FakeStoreApiClient;
 import com.fastturtle.productcatalogservice.dtos.FakeStoreProductDTO;
 import com.fastturtle.productcatalogservice.models.Category;
 import com.fastturtle.productcatalogservice.models.Product;
@@ -23,21 +24,17 @@ public class ProductService implements IProductService {
 
     private final RestTemplateBuilder restTemplateBuilder;
 
+    private final FakeStoreApiClient fakeStoreApiClient;
+
     @Autowired
-    public ProductService(RestTemplateBuilder restTemplateBuilder) {
+    public ProductService(RestTemplateBuilder restTemplateBuilder, FakeStoreApiClient fakeStoreApiClient) {
         this.restTemplateBuilder = restTemplateBuilder;
+        this.fakeStoreApiClient = fakeStoreApiClient;
     }
 
     @Override
     public Product getProductById(Long id) {
-//        RestTemplate restTemplate = restTemplateBuilder.build();
-//        ResponseEntity<FakeStoreProductDTO> fakeStoreProductDTOResponseEntity = restTemplate.getForEntity("https://fakestoreapi.com/products/{productId}", FakeStoreProductDTO.class, id);
-//        if(fakeStoreProductDTOResponseEntity.getBody() != null && fakeStoreProductDTOResponseEntity.getStatusCode().equals(HttpStatus.OK)) {
-//            return from(fakeStoreProductDTOResponseEntity.getBody());
-//        }
-
-        FakeStoreProductDTO fakeStoreProductDTO = requestForEntity(HttpMethod.GET, "https://fakestoreapi.com/products/{productId}", null, FakeStoreProductDTO.class, id).getBody();
-        return from(fakeStoreProductDTO);
+        return from(fakeStoreApiClient.getProductById(id));
     }
 
     @Override
@@ -60,18 +57,9 @@ public class ProductService implements IProductService {
     public Product replaceProduct(Long id, Product product) {
 
         FakeStoreProductDTO fakeStoreProductDTOReq = from(product);
+        FakeStoreProductDTO fakeStoreProductDTOResponse = fakeStoreApiClient.replaceProduct(id, fakeStoreProductDTOReq);
+        return from(fakeStoreProductDTOResponse);
 
-        FakeStoreProductDTO fakeStoreProductDTO = requestForEntity(HttpMethod.PUT, "https://fakestoreapi.com/products/{productId}", fakeStoreProductDTOReq, FakeStoreProductDTO.class, id).getBody();
-
-        return from(fakeStoreProductDTO);
-
-    }
-
-    public <T> ResponseEntity<T> requestForEntity(HttpMethod httpMethod, String url, @Nullable Object request, Class<T> responseType, Object... uriVariables) throws RestClientException {
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        RequestCallback requestCallback = restTemplate.httpEntityCallback(request, responseType);
-        ResponseExtractor<ResponseEntity<T>> responseExtractor = restTemplate.responseEntityExtractor(responseType);
-        return restTemplate.execute(url, httpMethod, requestCallback, responseExtractor, uriVariables);
     }
 
     private Product from(FakeStoreProductDTO fakeStoreProductDTO) {
