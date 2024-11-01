@@ -32,14 +32,22 @@ public class ProductController {
 
     @GetMapping("{id}")
     public ResponseEntity<ProductDTO> getProduct(@PathVariable("id") Long productId) {
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
-        headers.add("called by", "smart frontend");
-        Product product = productService.getProductById(productId);
-        if(product == null) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        try {
+            if(productId < 1) {
+                throw new IllegalArgumentException("Product not present");
+            }
+            MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+            headers.add("called by", "smart frontend");
+            Product product = productService.getProductById(productId);
+            if (product == null) {
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
         ProductDTO productDTO = from(product);
         return new ResponseEntity<>(productDTO, headers, HttpStatus.OK);
+        } catch (IllegalArgumentException ex) {
+            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping
