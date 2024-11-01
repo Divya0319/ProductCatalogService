@@ -40,7 +40,7 @@ public class ProductController {
     @GetMapping("{id}")
     public ResponseEntity<ProductDTO> getProduct(@PathVariable("id") Long productId) {
         try {
-            if(productId < 1) {
+            if(productId < 1 || productId > 20) {
                 throw new IllegalArgumentException("Product not present");
             }
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
@@ -53,7 +53,8 @@ public class ProductController {
         ProductDTO productDTO = from(product);
         return new ResponseEntity<>(productDTO, headers, HttpStatus.OK);
         } catch (IllegalArgumentException ex) {
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+//            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+            throw ex;
         }
     }
 
@@ -67,6 +68,11 @@ public class ProductController {
         Product product = from(productDTO);
         Product result = productService.replaceProduct(id, product);
         return from(result);
+    }
+
+    @ExceptionHandler({IllegalArgumentException.class})
+    private ResponseEntity<String> handleException(Exception ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     private ProductDTO from(Product product) {
