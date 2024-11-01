@@ -35,6 +35,9 @@ public class ProductController {
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.add("called by", "smart frontend");
         Product product = productService.getProductById(productId);
+        if(product == null) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
         ProductDTO productDTO = from(product);
         return new ResponseEntity<>(productDTO, headers, HttpStatus.OK);
     }
