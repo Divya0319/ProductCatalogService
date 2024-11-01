@@ -49,8 +49,10 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public Product createProduct( Product product) {
-        return null;
+    public Product createProduct(Product product) {
+        FakeStoreProductDTO fakeStoreProductDTO = from(product);
+        FakeStoreProductDTO fakeStoreProductDTOResponse = fakeStoreApiClient.createProduct(fakeStoreProductDTO);
+        return from(fakeStoreProductDTOResponse);
     }
 
     @Override

@@ -37,6 +37,11 @@ public class FakeStoreApiClient {
         return fakeStoreProductDTO;
     }
 
+    public FakeStoreProductDTO createProduct(FakeStoreProductDTO fakeStoreProductDTOReq) {
+        FakeStoreProductDTO fakeStoreProductDTO = requestForEntity(HttpMethod.POST, "https://fakestoreapi.com/products", fakeStoreProductDTOReq, FakeStoreProductDTO.class).getBody();
+        return fakeStoreProductDTO;
+    }
+
     public <T> ResponseEntity<T> requestForEntity(HttpMethod httpMethod, String url, @Nullable Object request, Class<T> responseType, Object... uriVariables) throws RestClientException {
         RestTemplate restTemplate = restTemplateBuilder.build();
         RequestCallback requestCallback = restTemplate.httpEntityCallback(request, responseType);
