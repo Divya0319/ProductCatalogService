@@ -27,7 +27,13 @@ public class ProductController {
 
     @GetMapping
     public List<ProductDTO> getAllProducts() {
-        return new ArrayList<>();
+        List<ProductDTO> productDTOS = new ArrayList<>();
+        List<Product> products = productService.getAllProducts();
+        for(Product product : products) {
+            productDTOS.add(from(product));
+        }
+
+        return productDTOS;
     }
 
     @GetMapping("{id}")
