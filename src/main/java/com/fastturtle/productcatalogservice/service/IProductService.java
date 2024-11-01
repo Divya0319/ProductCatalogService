@@ -11,4 +11,6 @@ public interface IProductService {
     public List<Product> getAllProducts();
 
     public Product createProduct( Product product);
+
+    public Product replaceProduct(Long id, Product product);
 }

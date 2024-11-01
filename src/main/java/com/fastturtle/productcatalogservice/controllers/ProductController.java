@@ -1,7 +1,9 @@
 package com.fastturtle.productcatalogservice.controllers;
 
 import com.fastturtle.productcatalogservice.dtos.CategoryDTO;
+import com.fastturtle.productcatalogservice.dtos.FakeStoreProductDTO;
 import com.fastturtle.productcatalogservice.dtos.ProductDTO;
+import com.fastturtle.productcatalogservice.models.Category;
 import com.fastturtle.productcatalogservice.models.Product;
 import com.fastturtle.productcatalogservice.service.IProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,7 +65,9 @@ public class ProductController {
 
     @PutMapping("{id}")
     public ProductDTO replaceProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
-        return productDTO;
+        Product product = from(productDTO);
+        Product result = productService.replaceProduct(id, product);
+        return from(result);
     }
 
     private ProductDTO from(Product product) {
@@ -83,5 +87,21 @@ public class ProductController {
         }
 
         return productDTO;
+    }
+
+    private Product from(ProductDTO productDTO) {
+        Product product = new Product();
+        product.setId(productDTO.getId());
+        product.setName(productDTO.getName());
+        product.setDescription(productDTO.getDescription());
+        product.setPrice(productDTO.getPrice());
+        product.setImageUrl(productDTO.getImageUrl());
+        if(productDTO.getCategory() != null) {
+            Category category = new Category();
+            category.setName(productDTO.getCategory().getName());
+            product.setCategory(category);
+        }
+
+        return product;
     }
 }
