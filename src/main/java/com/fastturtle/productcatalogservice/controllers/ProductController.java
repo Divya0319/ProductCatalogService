@@ -1,7 +1,6 @@
 package com.fastturtle.productcatalogservice.controllers;
 
 import com.fastturtle.productcatalogservice.dtos.CategoryDTO;
-import com.fastturtle.productcatalogservice.dtos.FakeStoreProductDTO;
 import com.fastturtle.productcatalogservice.dtos.ProductDTO;
 import com.fastturtle.productcatalogservice.models.Category;
 import com.fastturtle.productcatalogservice.models.Product;

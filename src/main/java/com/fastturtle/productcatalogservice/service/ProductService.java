@@ -30,12 +30,14 @@ public class ProductService implements IProductService {
 
     @Override
     public Product getProductById(Long id) {
-        RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<FakeStoreProductDTO> fakeStoreProductDTOResponseEntity = restTemplate.getForEntity("https://fakestoreapi.com/products/{productId}", FakeStoreProductDTO.class, id);
-        if(fakeStoreProductDTOResponseEntity.getBody() != null && fakeStoreProductDTOResponseEntity.getStatusCode().equals(HttpStatus.OK)) {
-            return from(fakeStoreProductDTOResponseEntity.getBody());
-        }
-        return null;
+//        RestTemplate restTemplate = restTemplateBuilder.build();
+//        ResponseEntity<FakeStoreProductDTO> fakeStoreProductDTOResponseEntity = restTemplate.getForEntity("https://fakestoreapi.com/products/{productId}", FakeStoreProductDTO.class, id);
+//        if(fakeStoreProductDTOResponseEntity.getBody() != null && fakeStoreProductDTOResponseEntity.getStatusCode().equals(HttpStatus.OK)) {
+//            return from(fakeStoreProductDTOResponseEntity.getBody());
+//        }
+
+        FakeStoreProductDTO fakeStoreProductDTO = requestForEntity(HttpMethod.GET, "https://fakestoreapi.com/products/{productId}", null, FakeStoreProductDTO.class, id).getBody();
+        return from(fakeStoreProductDTO);
     }
 
     @Override
@@ -59,17 +61,17 @@ public class ProductService implements IProductService {
 
         FakeStoreProductDTO fakeStoreProductDTOReq = from(product);
 
-        FakeStoreProductDTO fakeStoreProductDTO = putForEntity("https://fakestoreapi.com/products/{productId}", fakeStoreProductDTOReq, FakeStoreProductDTO.class, id).getBody();
+        FakeStoreProductDTO fakeStoreProductDTO = requestForEntity(HttpMethod.PUT, "https://fakestoreapi.com/products/{productId}", fakeStoreProductDTOReq, FakeStoreProductDTO.class, id).getBody();
 
         return from(fakeStoreProductDTO);
 
     }
 
-    public <T> ResponseEntity<T> putForEntity(String url, @Nullable Object request, Class<T> responseType, Object... uriVariables) throws RestClientException {
+    public <T> ResponseEntity<T> requestForEntity(HttpMethod httpMethod, String url, @Nullable Object request, Class<T> responseType, Object... uriVariables) throws RestClientException {
         RestTemplate restTemplate = restTemplateBuilder.build();
         RequestCallback requestCallback = restTemplate.httpEntityCallback(request, responseType);
         ResponseExtractor<ResponseEntity<T>> responseExtractor = restTemplate.responseEntityExtractor(responseType);
-        return restTemplate.execute(url, HttpMethod.PUT, requestCallback, responseExtractor, uriVariables);
+        return restTemplate.execute(url, httpMethod, requestCallback, responseExtractor, uriVariables);
     }
 
     private Product from(FakeStoreProductDTO fakeStoreProductDTO) {
