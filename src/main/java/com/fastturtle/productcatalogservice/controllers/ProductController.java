@@ -83,7 +83,7 @@ public class ProductController {
             headers.add("called by", "dumb frontend");
             Product product = productService.deleteProduct(productId);
             if (product == null) {
-                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+                throw new ProductNotFoundException();
             }
 
             ProductDTO productDTO = from(product);
@@ -121,7 +121,9 @@ public class ProductController {
         product.setImageUrl(productDTO.getImageUrl());
         if(productDTO.getCategory() != null) {
             Category category = new Category();
+            category.setId(productDTO.getCategory().getId());
             category.setName(productDTO.getCategory().getName());
+            category.setDescription(productDTO.getCategory().getDescription());
             product.setCategory(category);
         }
 
