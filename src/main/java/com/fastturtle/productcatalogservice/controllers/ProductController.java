@@ -73,6 +73,26 @@ public class ProductController {
         return from(result);
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity<ProductDTO> deleteProduct(@PathVariable("id") Long productId) {
+        try {
+            if(productId < 1 || productId > 20) {
+                throw new ProductNotFoundException();
+            }
+            MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+            headers.add("called by", "dumb frontend");
+            Product product = productService.deleteProduct(productId);
+            if (product == null) {
+                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+
+            ProductDTO productDTO = from(product);
+            return new ResponseEntity<>(productDTO, headers, HttpStatus.OK);
+        } catch (ProductNotFoundException ex) {
+            throw ex;
+        }
+    }
+
     private ProductDTO from(Product product) {
         ProductDTO productDTO = new ProductDTO();
         productDTO.setId(product.getId());

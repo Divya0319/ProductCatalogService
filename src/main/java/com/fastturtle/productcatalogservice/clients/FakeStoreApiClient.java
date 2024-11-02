@@ -42,6 +42,14 @@ public class FakeStoreApiClient {
         return fakeStoreProductDTO;
     }
 
+    public FakeStoreProductDTO deleteProduct(Long id) {
+        ResponseEntity<FakeStoreProductDTO> fakeStoreProductDTOResponseEntity = requestForEntity(HttpMethod.DELETE, "https://fakestoreapi.com/products/{productId}", null, FakeStoreProductDTO.class, id);
+        if(fakeStoreProductDTOResponseEntity.getBody() != null && fakeStoreProductDTOResponseEntity.getStatusCode().equals(HttpStatus.OK)) {
+            return fakeStoreProductDTOResponseEntity.getBody();
+        }
+        return null;
+    }
+
     public <T> ResponseEntity<T> requestForEntity(HttpMethod httpMethod, String url, @Nullable Object request, Class<T> responseType, Object... uriVariables) throws RestClientException {
         RestTemplate restTemplate = restTemplateBuilder.build();
         RequestCallback requestCallback = restTemplate.httpEntityCallback(request, responseType);

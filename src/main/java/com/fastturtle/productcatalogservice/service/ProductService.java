@@ -64,6 +64,11 @@ public class ProductService implements IProductService {
 
     }
 
+    @Override
+    public Product deleteProduct(Long id) {
+        return from(fakeStoreApiClient.deleteProduct(id));
+    }
+
     private Product from(FakeStoreProductDTO fakeStoreProductDTO) {
         Product product = new Product();
         product.setId(fakeStoreProductDTO.getId());
