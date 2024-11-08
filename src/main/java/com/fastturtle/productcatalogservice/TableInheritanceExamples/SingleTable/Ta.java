@@ -1,10 +1,11 @@
 package com.fastturtle.productcatalogservice.TableInheritanceExamples.SingleTable;
 
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 
 @Entity(name = "st_ta")
-@PrimaryKeyJoinColumn(name = "user_id")
+@DiscriminatorValue(value = "1")
 public class Ta extends User {
 
     private Double ratings;
