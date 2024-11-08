@@ -14,4 +14,9 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
 
     List<Product> findProductsByPriceBetween(Double low, Double high);
 
+    List<Product> findAllByIsPrimeSpecific(Boolean value);
+    List<Product> findAllByIsPrimeSpecificTrue();  // alternative to above query(only works for boolean values);
+
+    //List<Product> findAllByStateActive();
+
 }
