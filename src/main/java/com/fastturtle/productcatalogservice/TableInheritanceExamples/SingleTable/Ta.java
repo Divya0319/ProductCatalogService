@@ -1,0 +1,11 @@
+package com.fastturtle.productcatalogservice.TableInheritanceExamples.SingleTable;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+
+@Entity(name = "st_ta")
+@PrimaryKeyJoinColumn(name = "user_id")
+public class Ta extends User {
+
+    private Double ratings;
+}
