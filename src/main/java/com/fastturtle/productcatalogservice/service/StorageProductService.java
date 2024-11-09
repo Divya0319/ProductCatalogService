@@ -59,13 +59,26 @@ public class StorageProductService implements IProductService {
         Optional<Product> productOptional = productRepo.findById(id);
         if(productOptional.isPresent()) {
             Product oldProduct = productOptional.get();
-            oldProduct.setId(product.getId());
+
+            // Only update fields from the incoming product that are intended to change
             oldProduct.setName(product.getName());
             oldProduct.setPrice(product.getPrice());
             oldProduct.setImageUrl(product.getImageUrl());
             oldProduct.setDescription(product.getDescription());
-            oldProduct.setPrice(product.getPrice());
-            oldProduct.setCategory(product.getCategory());
+
+            // Handle Category updates
+            Category updatedCategory = product.getCategory();
+            if (updatedCategory != null) {
+                // Check if we need to update the category fields, without altering createdAt
+                Category existingCategory = oldProduct.getCategory();
+                if (existingCategory != null) {
+                    existingCategory.setName(updatedCategory.getName());
+                    existingCategory.setDescription(updatedCategory.getDescription());
+                } else {
+                    // If no existing category, assign the new one
+                    oldProduct.setCategory(updatedCategory);
+                }
+            }
 
             return productRepo.save(oldProduct);
 
