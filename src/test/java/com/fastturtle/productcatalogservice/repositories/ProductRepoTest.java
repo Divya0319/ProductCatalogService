@@ -20,7 +20,11 @@ class ProductRepoTest {
     @Transactional
     public void testJpaQueries() {
         //List<Product> productList = productRepo.findProductsByPriceBetween(200D, 1100D);
-        List<Product> productList = productRepo.findAllByOrderByPriceDesc();
+        //List<Product> productList = productRepo.findAllByOrderByPriceDesc();
+        //String productName = productRepo.findProductNameFromId(1L);
+        //System.out.println(productName);
+        String catName = productRepo.findCategoryNameFromProductId(5L);
+        System.out.println(catName);
     }
 
 }

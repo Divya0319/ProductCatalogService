@@ -2,6 +2,7 @@ package com.fastturtle.productcatalogservice.repositories;
 
 import com.fastturtle.productcatalogservice.models.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Optional;
@@ -20,5 +21,11 @@ public interface ProductRepo extends JpaRepository<Product, Long> {
     //List<Product> findAllByStateActive();
 
     List<Product> findAllByOrderByPriceDesc();
+
+    @Query("SELECT p.name FROM Product p WHERE p.id = ?1")
+    String findProductNameFromId(Long id);
+
+    @Query("SELECT c.name FROM Category c JOIN Product p ON p.category.id = c.id WHERE p.id = :productId")
+    String findCategoryNameFromProductId(Long productId);
 
 }
