@@ -1,7 +1,9 @@
 package com.fastturtle.productcatalogservice.service;
 
+import com.fastturtle.productcatalogservice.models.Category;
 import com.fastturtle.productcatalogservice.models.Product;
 import com.fastturtle.productcatalogservice.models.State;
+import com.fastturtle.productcatalogservice.repositories.CategoryRepo;
 import com.fastturtle.productcatalogservice.repositories.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
@@ -9,17 +11,17 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Primary
 public class StorageProductService implements IProductService {
 
     private final ProductRepo productRepo;
+    private final CategoryRepo categoryRepo;
 
-    @Autowired
-    public StorageProductService(ProductRepo productRepo) {
+    public StorageProductService(ProductRepo productRepo, CategoryRepo categoryRepo) {
         this.productRepo = productRepo;
+        this.categoryRepo = categoryRepo;
     }
 
     @Override
@@ -44,8 +46,10 @@ public class StorageProductService implements IProductService {
 
     @Override
     public Product createProduct(Product product) {
-        product.setState(State.ACTIVE);
-        product.getCategory().setState(State.ACTIVE);
+        if(product.getCategory() != null && product.getCategory().getId() != null) {
+            Optional<Category> existingCategory = categoryRepo.findById(product.getCategory().getId());
+            existingCategory.ifPresent(product::setCategory);
+        }
         Product newProduct = productRepo.save(product);
         return newProduct;
     }
