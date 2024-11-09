@@ -45,6 +45,7 @@ public class StorageProductService implements IProductService {
     @Override
     public Product createProduct(Product product) {
         product.setState(State.ACTIVE);
+        product.getCategory().setState(State.ACTIVE);
         Product newProduct = productRepo.save(product);
         return newProduct;
     }
