@@ -33,7 +33,7 @@ class CategoryRepoTest {
     @Test
     @Transactional
     public void testFetchTypesAndFetchModes() {
-        Optional<Category> optionalCategory = categoryRepo.findById(3L);
+        Optional<Category> optionalCategory = categoryRepo.findById(2L);
         System.out.println(optionalCategory.get().getName());
 
         for(Product p : optionalCategory.get().getProductList()) {
