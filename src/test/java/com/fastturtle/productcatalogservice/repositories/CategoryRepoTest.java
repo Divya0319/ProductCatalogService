@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,6 +38,18 @@ class CategoryRepoTest {
 
         for(Product p : optionalCategory.get().getProductList()) {
             System.out.println(p.getName());
+        }
+    }
+
+    @Test
+    @Transactional
+    public void testSubSelect() {
+        List<Category> categoryList = categoryRepo.findAll();
+        for(Category category : categoryList) {
+            List<Product> products = category.getProductList();
+            if(!products.isEmpty()) {
+                System.out.println(products.get(0).getName());
+            }
         }
     }
 
