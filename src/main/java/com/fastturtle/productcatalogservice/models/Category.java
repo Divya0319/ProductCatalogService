@@ -21,7 +21,7 @@ public class Category extends BaseModel {
 
     private String description;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)  // in case of Eager fetch type, instead of separate queries, Hibernate will do join query of product and category
+    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)  // in case of Eager fetch type, instead of separate queries, Hibernate will do join query of product and category
     @Fetch(FetchMode.SUBSELECT)
     private List<Product> productList;
 
