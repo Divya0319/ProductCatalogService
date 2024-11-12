@@ -6,6 +6,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 
@@ -19,7 +21,8 @@ public class Category extends BaseModel {
 
     private String description;
 
-    @OneToMany(mappedBy = "category", fetch = FetchType.EAGER)  // in case of Eager fetch type, instead of separate queries, Hibernate will do join query of product and category
+    @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)  // in case of Eager fetch type, instead of separate queries, Hibernate will do join query of product and category
+    @Fetch(FetchMode.SELECT)
     private List<Product> productList;
 
 
