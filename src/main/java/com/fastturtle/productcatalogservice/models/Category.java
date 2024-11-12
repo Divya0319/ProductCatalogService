@@ -24,7 +24,7 @@ public class Category extends BaseModel {
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)  // in case of Eager fetch type, instead of separate queries, Hibernate will do join query of product and category
     @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 2)
+    @BatchSize(size = 10)
     private List<Product> productList;
 
 
