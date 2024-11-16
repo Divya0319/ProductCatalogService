@@ -1,6 +1,7 @@
 package com.fastturtle.productcatalogservice.controllers;
 
 import com.fastturtle.productcatalogservice.dtos.ProductDTO;
+import com.fastturtle.productcatalogservice.exceptions.ProductNotFoundException;
 import com.fastturtle.productcatalogservice.models.Product;
 import com.fastturtle.productcatalogservice.service.IProductService;
 import org.junit.jupiter.api.Test;
@@ -9,8 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.ResponseEntity;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -42,6 +42,13 @@ public class ProductControllerTest {
         assertNotNull(response.getBody());
         assertEquals(id, response.getBody().getId());
         assertEquals("Iphone 20", response.getBody().getName());
+    }
+
+    @Test
+    public void test_GetProductById_WithInvalidId_ThrowsException() {
+        //Act and Assert
+        assertThrows(ProductNotFoundException.class,
+                () -> productController.getProduct(0L));
     }
 
 }

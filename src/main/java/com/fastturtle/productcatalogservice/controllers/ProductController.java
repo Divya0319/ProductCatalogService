@@ -42,7 +42,7 @@ public class ProductController {
     public ResponseEntity<ProductDTO> getProduct(@PathVariable("id") Long productId) {
         try {
             if(productId < 1 || productId > 20) {
-                throw new ProductNotFoundException();
+                throw new ProductNotFoundException("Product not present");
             }
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
             headers.add("called by", "smart frontend");
@@ -77,13 +77,13 @@ public class ProductController {
     public ResponseEntity<ProductDTO> deleteProduct(@PathVariable("id") Long productId) {
         try {
             if(productId < 1 || productId > 20) {
-                throw new ProductNotFoundException();
+                throw new ProductNotFoundException("Product not present");
             }
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
             headers.add("called by", "dumb frontend");
             Product product = productService.deleteProduct(productId);
             if (product == null) {
-                throw new ProductNotFoundException();
+                throw new ProductNotFoundException("Product not present");
             }
 
             ProductDTO productDTO = from(product);
