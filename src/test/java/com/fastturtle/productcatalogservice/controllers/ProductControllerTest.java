@@ -52,4 +52,15 @@ public class ProductControllerTest {
         assertEquals("Product not present", ex.getMessage());
     }
 
+    @Test
+    public void test_GetProductById_ProductServiceThrowsException() {
+        //Arrange
+        when(productService.getProductById(any(Long.class)))
+                .thenThrow(new ProductNotFoundException("something went bad"));
+
+        //Act and Assert
+        assertThrows(RuntimeException.class,
+                () -> productController.getProduct(0L));
+    }
+
 }
