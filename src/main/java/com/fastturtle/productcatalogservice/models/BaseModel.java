@@ -24,6 +24,6 @@ public abstract class BaseModel {
     @LastModifiedDate
     private Date lastUpdatedAt;
 
-    private State state = State.ACTIVE;     // this is needed because, when we delete a product from our system, in order to keep a way to bring it back,
+    private State state;     // this is needed because, when we delete a product from our system, in order to keep a way to bring it back,
                             // we actually don't delete it, but just mark it as inactive.
 }
