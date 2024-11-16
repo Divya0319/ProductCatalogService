@@ -66,4 +66,6 @@ public class ProductControllerTest {
                 () -> productController.getProduct(0L));
     }
 
+    // TODO: add tests for other methods of controller
+
 }
