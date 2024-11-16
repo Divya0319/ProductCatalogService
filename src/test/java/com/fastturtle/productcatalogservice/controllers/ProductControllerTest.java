@@ -12,7 +12,7 @@ import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 public class ProductControllerTest {
@@ -50,6 +50,7 @@ public class ProductControllerTest {
         Exception ex = assertThrows(ProductNotFoundException.class,
                 () -> productController.getProduct(0L));
         assertEquals("Product not present", ex.getMessage());
+        verify(productService, times(0)).getProductById(0L);
     }
 
     @Test
