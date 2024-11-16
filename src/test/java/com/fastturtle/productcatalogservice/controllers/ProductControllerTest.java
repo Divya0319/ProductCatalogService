@@ -47,8 +47,9 @@ public class ProductControllerTest {
     @Test
     public void test_GetProductById_WithInvalidId_ThrowsException() {
         //Act and Assert
-        assertThrows(ProductNotFoundException.class,
+        Exception ex = assertThrows(ProductNotFoundException.class,
                 () -> productController.getProduct(0L));
+        assertEquals("Product not present", ex.getMessage());
     }
 
 }
