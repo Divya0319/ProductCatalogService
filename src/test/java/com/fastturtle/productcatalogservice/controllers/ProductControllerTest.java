@@ -4,6 +4,7 @@ import com.fastturtle.productcatalogservice.dtos.ProductDTO;
 import com.fastturtle.productcatalogservice.exceptions.ProductNotFoundException;
 import com.fastturtle.productcatalogservice.models.Product;
 import com.fastturtle.productcatalogservice.service.IProductService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -45,6 +46,7 @@ public class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("parameter 0 resulted in product not present exception")
     public void test_GetProductById_WithInvalidId_ThrowsException() {
         //Act and Assert
         Exception ex = assertThrows(ProductNotFoundException.class,
