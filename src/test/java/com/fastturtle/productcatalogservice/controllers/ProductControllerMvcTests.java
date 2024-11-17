@@ -82,8 +82,14 @@ public class ProductControllerMvcTests {
                 )
                 .andExpect(status().isOk())
                 .andExpect(content().string(objectMapper.writeValueAsString(productDTO)))
-                .andExpect(jsonPath("$.name").value("ipad"))
+                .andExpect(jsonPath("$.name").value("ipad")) // whole json is referred by '$'
                 .andExpect(jsonPath("$.length()").value(3));
+
+//        {
+//            "id" : 5,
+//            "name" : "ipad",
+//            "description": "kidnfknk"
+//        }
 
     }
 }
