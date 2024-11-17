@@ -42,11 +42,11 @@ public class ProductController {
     public ResponseEntity<ProductDTO> getProduct(@PathVariable("id") Long productId) {
         try {
             if(productId < 1 || productId > 20) {
-                throw new ProductNotFoundException("Product not present12");
+                throw new ProductNotFoundException("Product not present");
             }
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
             headers.add("called by", "smart frontend");
-            Product product = productService.getProductById(productId+1);
+            Product product = productService.getProductById(productId);
             if (product == null) {
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             }
