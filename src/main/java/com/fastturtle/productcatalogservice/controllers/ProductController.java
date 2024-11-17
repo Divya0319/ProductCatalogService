@@ -46,7 +46,7 @@ public class ProductController {
             }
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
             headers.add("called by", "smart frontend");
-            Product product = productService.getProductById(productId);
+            Product product = productService.getProductById(productId+1);
             if (product == null) {
                 return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
             }

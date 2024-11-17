@@ -37,7 +37,7 @@ public class ProductControllerTest {
         product.setId(id);
         product.setName("Iphone 20");
 //        when(productService.getProductById(any(Long.class)))
-//                .thenReturn(new Product());
+//                .thenReturn(product);
         when(productService.getProductById(id))
                 .thenReturn(product);
 
@@ -72,5 +72,28 @@ public class ProductControllerTest {
     }
 
     // TODO: add tests for other methods of controller
+
+    @Test
+    public void test_GetProductById_CheckIfProductServiceCalledWithExpectedArguments() {
+        //Arrange
+        Long id = 1L;
+        Product product = new Product();
+        product.setId(id);
+        product.setName("Iphone20");
+
+        when(productService.getProductById(any(Long.class)))
+                .thenReturn(product);
+
+        //Act
+        productController.getProduct(id);
+
+        //Assert
+
+        // Whenever need to check anything with mock(number of times called, argument passed)
+        // we use verify
+        verify(productService).getProductById(idCaptor.capture());
+        assertEquals(id, idCaptor.getValue());
+
+    }
 
 }
