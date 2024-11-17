@@ -6,6 +6,8 @@ import com.fastturtle.productcatalogservice.models.Product;
 import com.fastturtle.productcatalogservice.service.IProductService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -23,6 +25,9 @@ public class ProductControllerTest {
 
     @MockBean
     private IProductService productService;
+
+    @Captor
+    ArgumentCaptor<Long> idCaptor;
 
     @Test
     public void test_GetProductById_WithValidId_ReturnsProductSuccessfully() {
