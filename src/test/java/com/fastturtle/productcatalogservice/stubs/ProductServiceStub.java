@@ -26,21 +26,24 @@ public class ProductServiceStub implements IProductService {
 
     @Override
     public List<Product> getAllProducts() {
-        return List.of();
+        return (List<Product>) productMap.values();
     }
 
     @Override
     public Product createProduct(Product product) {
-        return null;
+        productMap.put(product.getId(), product);
+        return productMap.get(product.getId());
     }
 
     @Override
     public Product replaceProduct(Long id, Product product) {
-        return null;
+        productMap.put(id, product);
+        return productMap.get(id);
     }
 
     @Override
     public Product deleteProduct(Long id) {
-        return null;
+        Product removed = productMap.remove(id);
+        return removed;
     }
 }
