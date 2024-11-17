@@ -59,7 +59,10 @@ public class ProductControllerMvcTests {
         // Act and Assert
         mockMvc.perform(get("/products"))
                 .andExpect(status().isOk())
-                .andExpect(content().string(objectMapper.writeValueAsString(productList)));
+                .andExpect(content().string(objectMapper.writeValueAsString(productList)))
+                .andExpect(jsonPath("$[1].name").value("MacBook"))
+                .andExpect(jsonPath("$[1].length()").value(3))
+                .andExpect(jsonPath("$.length()").value(2));
     }
 
     // TODO : try mockmvc test for post api
