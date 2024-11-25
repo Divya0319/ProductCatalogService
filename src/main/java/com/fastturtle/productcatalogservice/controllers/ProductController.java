@@ -39,7 +39,7 @@ public class ProductController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<ProductDTO> getProduct(@PathVariable("id") Long productId) {
+    public ProductDTO getProduct(@PathVariable("id") Long productId) {
         try {
             if(productId < 1 || productId > 20) {
                 throw new ProductNotFoundException("Product not present");
@@ -48,11 +48,13 @@ public class ProductController {
             headers.add("called by", "smart frontend");
             Product product = productService.getProductById(productId);
             if (product == null) {
-                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+//                return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+                return null;
             }
 
         ProductDTO productDTO = from(product);
-        return new ResponseEntity<>(productDTO, headers, HttpStatus.OK);
+//        return new ResponseEntity<>(productDTO, headers, HttpStatus.OK);
+            return productDTO;
         } catch (ProductNotFoundException ex) {
 //            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
             throw ex;
