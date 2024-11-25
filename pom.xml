@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.fastturtle</groupId>
     <artifactId>ProductCatalogService</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
     <name>ProductCatalogService</name>
     <description>ProductCatalogService</description>
     <url/>

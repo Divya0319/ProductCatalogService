@@ -1,5 +1,6 @@
 package com.fastturtle.productcatalogservice.repositories;
 
+import com.fastturtle.productcatalogservice.models.Category;
 import com.fastturtle.productcatalogservice.models.Product;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,25 @@ class ProductRepoTest {
         //List<Product> productList = productRepo.findAllByOrderByPriceDesc();
         //String productName = productRepo.findProductNameFromId(1L);
         //System.out.println(productName);
-        String catName = productRepo.findCategoryNameFromProductId(5L);
+        String catName = productRepo.findCategoryNameFromProductId(1L);
         System.out.println(catName);
+    }
+
+    @Test
+    public void insertIntoAWSDb() {
+        Product product = new Product();
+        product.setId(1L);
+        product.setName("Himgange Oil");
+        product.setDescription("Thanda tel");
+        product.setPrice(180.00);
+        Category category = new Category();
+        category.setId(5L);
+        category.setName("Hair Oils");
+        category.setDescription("Hair Oils");
+        product.setCategory(category);
+
+        productRepo.save(product);
+
     }
 
 }
