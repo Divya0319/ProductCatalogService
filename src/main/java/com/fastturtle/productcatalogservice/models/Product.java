@@ -1,6 +1,7 @@
 package com.fastturtle.productcatalogservice.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
@@ -22,6 +23,7 @@ public class Product extends BaseModel {
     private Double price;
 
     @ManyToOne(cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Category category;
 
     private Boolean isPrimeSpecific;

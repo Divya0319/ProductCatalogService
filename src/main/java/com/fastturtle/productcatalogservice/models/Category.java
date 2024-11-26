@@ -1,5 +1,6 @@
 package com.fastturtle.productcatalogservice.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -23,8 +24,9 @@ public class Category extends BaseModel {
     private String description;
 
     @OneToMany(mappedBy = "category", fetch = FetchType.LAZY)  // in case of Eager fetch type, instead of separate queries, Hibernate will do join query of product and category
-    @Fetch(FetchMode.SELECT)
-    @BatchSize(size = 10)
+    //@Fetch(FetchMode.SELECT)
+    //@BatchSize(size = 10)
+    @JsonBackReference
     private List<Product> productList;
 
 
