@@ -24,6 +24,10 @@ public class SearchController {
 
     @PostMapping
     public Page<Product> searchProducts(@RequestBody SearchProductRequestDTO searchProductRequestDTO) {
-        return searchService.searchProduct(searchProductRequestDTO.getQuery(), searchProductRequestDTO.getPageNumber(), searchProductRequestDTO.getPageLimit());
+        return searchService.searchProduct(
+                searchProductRequestDTO.getQuery(),
+                searchProductRequestDTO.getPageNumber(),
+                searchProductRequestDTO.getPageLimit(),
+                searchProductRequestDTO.getSortParamList());
     }
 }
