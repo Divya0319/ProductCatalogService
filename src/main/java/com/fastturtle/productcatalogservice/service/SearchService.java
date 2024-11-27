@@ -2,6 +2,9 @@ package com.fastturtle.productcatalogservice.service;
 
 import com.fastturtle.productcatalogservice.models.Product;
 import com.fastturtle.productcatalogservice.repositories.ProductRepo;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +18,7 @@ public class SearchService {
         this.productRepo = productRepo;
     }
 
-    public List<Product> searchProduct(String query) {
-        return productRepo.findProductsByName(query);
+    public Page<Product> searchProduct(String query, Integer pageNumber, Integer pageSize) {
+        return productRepo.findProductsByName(query, PageRequest.of(pageNumber, pageSize));
     }
 }

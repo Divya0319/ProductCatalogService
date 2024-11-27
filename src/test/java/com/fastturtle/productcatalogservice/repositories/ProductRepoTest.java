@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -16,6 +17,9 @@ class ProductRepoTest {
 
     @Autowired
     private ProductRepo productRepo;
+
+    @Autowired
+    private CategoryRepo categoryRepo;
 
     @Test
     @Transactional
@@ -42,6 +46,45 @@ class ProductRepoTest {
         product.setCategory(category);
 
         productRepo.save(product);
+
+    }
+
+    @Test
+    public void insert10DifferentProductsWithSameTitleIntoAWSDb() {
+        Category category = new Category();
+        category.setId(6L);
+        category.setName("Condoms");
+        category.setDescription("Best quality condoms");
+
+        // Array of product descriptions for the remaining 9 products
+        String[] descriptions = {
+                "Latex", "Non-Latex", "Internal", "Spermicidal", "Glow-in-the-dark",
+                "Flavored", "Textured", "Warming", "Pleasure-Shaped", "Colored"
+        };
+
+        // Starting ID for the products
+        long startingId = 2L;
+        // Starting price
+        double startingPrice = 30.00;
+
+        for (int i = 0; i < descriptions.length; i++) {
+            Product product = new Product();
+            product.setId(startingId + i); // Increment ID for each product
+            product.setName("Durex Condom");
+            product.setImageUrl("https://images.google.com/" + descriptions[i]);
+            product.setDescription(descriptions[i]);
+            product.setPrice(startingPrice + (i * 20)); // Increment price by 20 for each product
+
+            Optional<Category> existingCategory = categoryRepo.findById(6L);
+            if(existingCategory.isPresent()) {
+                product.setCategory(existingCategory.get());
+            } else {
+                product.setCategory(category);
+            }
+
+            productRepo.save(product); // Save the product
+        }
+
 
     }
 
