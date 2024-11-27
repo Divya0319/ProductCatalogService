@@ -67,13 +67,22 @@ class ProductRepoTest {
         // Starting price
         double startingPrice = 30.00;
 
+        double specialPrice = 100.0;
+
+        long[] specialPriceIds = {3L, 4L};
+
         for (int i = 0; i < descriptions.length; i++) {
             Product product = new Product();
             product.setId(startingId + i); // Increment ID for each product
             product.setName("Durex Condom");
             product.setImageUrl("https://images.google.com/" + descriptions[i]);
             product.setDescription(descriptions[i]);
-            product.setPrice(startingPrice + (i * 20)); // Increment price by 20 for each product
+
+            if(product.getId() == specialPriceIds[0] || product.getId() == specialPriceIds[1]) {
+                product.setPrice(specialPrice);
+            } else {
+                product.setPrice(startingPrice + (i * 20)); // Increment price by 20 for each product
+            }
 
             Optional<Category> existingCategory = categoryRepo.findById(6L);
             if(existingCategory.isPresent()) {
