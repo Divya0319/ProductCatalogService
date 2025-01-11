@@ -33,7 +33,21 @@ public class FakeStoreProductService implements IProductService {
 
     @Override
     public Product getProductById(Long id) {
-        return from(fakeStoreApiClient.getProductById(id));
+        FakeStoreProductDTO fakeStoreProductDTO = null;
+
+        fakeStoreProductDTO = (FakeStoreProductDTO) redisTemplate.opsForHash().get("_PRODUCTS", id);
+
+        if(fakeStoreProductDTO != null) {
+            System.out.println("Found in cache");
+            return from(fakeStoreProductDTO);
+        }
+
+
+        fakeStoreProductDTO =  fakeStoreApiClient.getProductById(id);
+        System.out.println("Found by calling fakestore");
+        redisTemplate.opsForHash().put("_PRODUCTS", id, fakeStoreProductDTO);
+
+        return from(fakeStoreProductDTO);
     }
 
     @Override

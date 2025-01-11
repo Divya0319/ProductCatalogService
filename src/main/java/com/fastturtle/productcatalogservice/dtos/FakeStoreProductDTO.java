@@ -3,9 +3,11 @@ package com.fastturtle.productcatalogservice.dtos;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @Getter
 @Setter
-public class FakeStoreProductDTO {
+public class FakeStoreProductDTO implements Serializable {
 
     private Long id;
 
