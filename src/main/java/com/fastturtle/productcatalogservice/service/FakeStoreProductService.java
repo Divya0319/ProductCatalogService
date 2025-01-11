@@ -6,6 +6,8 @@ import com.fastturtle.productcatalogservice.models.Category;
 import com.fastturtle.productcatalogservice.models.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -13,16 +15,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Primary
 public class FakeStoreProductService implements IProductService {
 
     private final RestTemplateBuilder restTemplateBuilder;
 
     private final FakeStoreApiClient fakeStoreApiClient;
 
+    private final RedisTemplate<String, Object> redisTemplate;
+
     @Autowired
-    public FakeStoreProductService(RestTemplateBuilder restTemplateBuilder, FakeStoreApiClient fakeStoreApiClient) {
+    public FakeStoreProductService(RestTemplateBuilder restTemplateBuilder, FakeStoreApiClient fakeStoreApiClient, RedisTemplate<String, Object> redisTemplate) {
         this.restTemplateBuilder = restTemplateBuilder;
         this.fakeStoreApiClient = fakeStoreApiClient;
+        this.redisTemplate = redisTemplate;
     }
 
     @Override
