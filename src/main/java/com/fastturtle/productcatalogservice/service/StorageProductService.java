@@ -1,6 +1,7 @@
 package com.fastturtle.productcatalogservice.service;
 
 import com.fastturtle.productcatalogservice.dtos.UserDTO;
+import com.fastturtle.productcatalogservice.exceptions.UserNotAdminOrSellerException;
 import com.fastturtle.productcatalogservice.models.Category;
 import com.fastturtle.productcatalogservice.models.Product;
 import com.fastturtle.productcatalogservice.models.State;
@@ -57,7 +58,10 @@ public class StorageProductService implements IProductService {
         }
 
         UserDTO userDTO = restTemplate.getForEntity("http://localhost:9000/users/{uid}", UserDTO.class, uid).getBody();
-        System.out.println("EMail: " + userDTO.getEmail());
+        boolean isAdminOrSeller = userDTO.getRoles().stream().anyMatch(r -> r.getName().equals("ADMIN") || r.getName().equals("SELLER"));
+        if(!isAdminOrSeller) {
+            throw new UserNotAdminOrSellerException("Provided user neither has ADMIN or SELLER role");
+        }
         return product;
     }
 
