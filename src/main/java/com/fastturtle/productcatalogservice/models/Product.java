@@ -28,4 +28,6 @@ public class Product extends BaseModel {
 
     private Boolean isPrimeSpecific;
 
+    private Boolean isPublic = false;
+
 }
