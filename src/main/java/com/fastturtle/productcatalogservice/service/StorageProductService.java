@@ -57,8 +57,9 @@ public class StorageProductService implements IProductService {
             return product;
         }
 
-        UserDTO userDTO = restTemplate.getForEntity("http://localhost:9000/users/{uid}", UserDTO.class, uid).getBody();
+        UserDTO userDTO = restTemplate.getForEntity("http://userservice/users/{uid}", UserDTO.class, uid).getBody();
         boolean isAdminOrSeller = userDTO.getRoles().stream().anyMatch(r -> r.getName().equals("ADMIN") || r.getName().equals("SELLER"));
+        System.out.println("EMail: " + userDTO.getEmail());
         if(!isAdminOrSeller) {
             throw new UserNotAdminOrSellerException("Provided user neither has ADMIN or SELLER role");
         }
