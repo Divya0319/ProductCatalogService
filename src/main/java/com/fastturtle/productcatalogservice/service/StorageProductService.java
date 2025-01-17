@@ -1,5 +1,6 @@
 package com.fastturtle.productcatalogservice.service;
 
+import com.fastturtle.productcatalogservice.dtos.UserDTO;
 import com.fastturtle.productcatalogservice.models.Category;
 import com.fastturtle.productcatalogservice.models.Product;
 import com.fastturtle.productcatalogservice.models.State;
@@ -8,20 +9,23 @@ import com.fastturtle.productcatalogservice.repositories.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-//@Primary
+@Primary
 public class StorageProductService implements IProductService {
 
     private final ProductRepo productRepo;
     private final CategoryRepo categoryRepo;
+    private final RestTemplate restTemplate;
 
-    public StorageProductService(ProductRepo productRepo, CategoryRepo categoryRepo) {
+    public StorageProductService(ProductRepo productRepo, CategoryRepo categoryRepo, RestTemplate restTemplate) {
         this.productRepo = productRepo;
         this.categoryRepo = categoryRepo;
+        this.restTemplate = restTemplate;
     }
 
     @Override
@@ -46,7 +50,15 @@ public class StorageProductService implements IProductService {
 
     @Override
     public Product getProductBasedOnScope(Long pid, Long uid) {
+        Product product = productRepo.findById(pid).get();
 
+        if(product.getIsPublic()) {
+            return product;
+        }
+
+        UserDTO userDTO = restTemplate.getForEntity("http://localhost:9000/users/{uid}", UserDTO.class, uid).getBody();
+        System.out.println("EMail: " + userDTO.getEmail());
+        return product;
     }
 
     @Override
