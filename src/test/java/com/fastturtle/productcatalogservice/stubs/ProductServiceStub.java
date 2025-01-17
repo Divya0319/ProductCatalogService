@@ -30,6 +30,11 @@ public class ProductServiceStub implements IProductService {
     }
 
     @Override
+    public Product getProductBasedOnScope(Long pid, Long uid) {
+        return null;
+    }
+
+    @Override
     public Product createProduct(Product product) {
         productMap.put(product.getId(), product);
         return productMap.get(product.getId());
