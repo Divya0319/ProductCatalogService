@@ -10,6 +10,8 @@ public interface IProductService {
 
     List<Product> getAllProducts();
 
+    Product getProductBasedOnScope(Long pid, Long uid);
+
     Product createProduct(Product product);
 
     Product replaceProduct(Long id, Product product);

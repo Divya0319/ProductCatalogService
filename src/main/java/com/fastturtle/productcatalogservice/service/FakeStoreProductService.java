@@ -62,6 +62,11 @@ public class FakeStoreProductService implements IProductService {
     }
 
     @Override
+    public Product getProductBasedOnScope(Long pid, Long uid) {
+        return null;
+    }
+
+    @Override
     public Product createProduct(Product product) {
         FakeStoreProductDTO fakeStoreProductDTO = from(product);
         FakeStoreProductDTO fakeStoreProductDTOResponse = fakeStoreApiClient.createProduct(fakeStoreProductDTO);

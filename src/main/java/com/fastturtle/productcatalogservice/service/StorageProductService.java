@@ -45,6 +45,11 @@ public class StorageProductService implements IProductService {
     }
 
     @Override
+    public Product getProductBasedOnScope(Long pid, Long uid) {
+
+    }
+
+    @Override
     public Product createProduct(Product product) {
         if(product.getCategory() != null && product.getCategory().getId() != null) {
             Optional<Category> existingCategory = categoryRepo.findById(product.getCategory().getId());

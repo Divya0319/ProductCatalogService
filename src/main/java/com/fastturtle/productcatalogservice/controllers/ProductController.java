@@ -22,9 +22,14 @@ public class ProductController {
 
     private final IProductService productService;
 
-    @Autowired
     public ProductController(IProductService productService) {
         this.productService = productService;
+    }
+
+    @GetMapping("/{pid}/{uid}")
+    public ProductDTO getProductDetailsBasedOnUserScope(@PathVariable Long pid, @PathVariable Long uid) {
+        Product product = productService.getProductBasedOnScope(pid, uid);
+        return from(product);
     }
 
     @GetMapping
